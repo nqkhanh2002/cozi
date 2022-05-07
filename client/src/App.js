@@ -1,55 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getLetters } from './actions/letters'
 import {
   ChakraProvider,
-  Flex,
 } from '@chakra-ui/react';
 import theme from './theme/theme';
 import Layout from './components/layout'
-import Envelope from './components/envelope';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import WorldMailbox from './pages/worldMailTank';
+import Compose from './pages/compose';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getLetters);
+  }, [dispatch]);
+
   return (
     <ChakraProvider theme={theme}>
-      <Layout>
-        <Flex sx={styles.worldMailbox}>
-          <Envelope
-            date='22/05/2021'
-            from='Ẩn danh'
-            tittle='Nỗi cô đơn trong những ngày dãn cách xã hội'
-            to='Thế giới'
-          />
-          <Envelope
-            date='22/05/2021'
-            from='Ẩn danh'
-            tittle='Nỗi cô đơn trong những ngày dãn cách'
-            to='Thế giới'
-          />
-                    <Envelope
-            date='22/05/2021'
-            from='Ẩn danh'
-            tittle='Nỗi cô đơn trong những ngày dãn cách xã hội'
-            to='Thế giới'
-          />
-          <Envelope
-            date='22/05/2021'
-            from='Ẩn danh'
-            tittle='Nỗi cô đơn trong những ngày dãn cách'
-            to='Thế giới'
-          />
-        </Flex>
-      </Layout>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<WorldMailbox />} />
+            <Route path="compose" element={<Compose />} />
+            <Route path="*" element={<WorldMailbox />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ChakraProvider>
   );
-}
-
-const styles = {
-  worldMailbox: {
-    bg: 'gray.50',
-    p: 4,
-    flex: 1,
-    flexFlow: 'wrap',
-    justifyContent: 'space-around',
-  }
 }
 
 export default App;

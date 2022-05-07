@@ -1,27 +1,27 @@
 import {
     Flex,
-    Link,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 export default function Menu() {
     return (
         <Flex sx={styles.menu}>
-            <Link href='#'>
+            <Link to='home'>
                 Bể thư thế giới
             </Link>
-            <Link href='#'>
+            <Link to='#'>
                 Bể thư tâm tình
             </Link>
-            <Link href='#'>
+            <Link to='#'>
                 Hộp thư đến
             </Link>
-            <Link href='#'>
+            <Link to='#'>
                 Thư đã gửi
             </Link>
-            <Link href='#'>
+            <Link to='#'>
                 Thư quan trọng
             </Link>
-            <Link href='#'>
+            <Link to='#'>
                 Thư nháp
             </Link>
         </Flex>

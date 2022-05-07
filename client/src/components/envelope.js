@@ -3,9 +3,12 @@ import {
     Flex,
     Text,
     Heading,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 export default function Envelope({ date, from, tittle, to }) {
+    const letters = useSelector((state) => state.letters);
+    console.log(letters);
     return (
         <Box sx={styles.container}>
             <Flex sx={styles.inner}>
