@@ -2,7 +2,9 @@ import {
     Flex,
     Link,
     Button,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+
+import MobileDrawer from './mobileDrawer';
 
 export default function Header() {
     return (
@@ -10,29 +12,32 @@ export default function Header() {
             <Link href='./'>
                 COZI
             </Link>
-            <Button sx={styles.btnSignIn}>
+            <Button
+                sx={styles.btnSignIn}
+            >
                 Đăng nhập
-            </Button> 
+            </Button>
+            <MobileDrawer />
         </Flex>
     )
 }
 
 const styles = {
     header: {
-        maxW: 'container.lg',
+        maxW: 'container.xl',
         mx: 'auto',
-        my: 4,
+        p: 4,
         alignItems: 'center',
     },
     btnSignIn: {
         ml: 'auto',
-        bg: 'airmailBlue',
-        color: 'white',
+        color: 'gray.900',
+        bg: 'none',
+        border: '2px solid',
+        borderColor: 'blue.700',
         _hover: {
-            color: 'black',
-            bg: 'none',
-            border: '2px solid',
-            borderColor: 'airmailBlue',
+            color: 'white',
+            bg: 'blue.700',
         }
     }
 }

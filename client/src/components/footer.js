@@ -33,11 +33,23 @@ const styles = {
     footer: {
         color: 'white',
         bg: 'black',
-        py: 8,
+        py: 16,
     },
     container: {
-        maxW: 'container.lg',
+        maxW: 'container.xl',
         mx: 'auto',
+        px: 4,
         justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: {
+            sm: 'column',
+            lg: 'row',
+        },
+        p: {
+            mb: 2,
+        },
+        a: {
+            mb: 2,
+        }
     }
 }

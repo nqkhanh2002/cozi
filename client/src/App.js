@@ -44,9 +44,11 @@ function App() {
 
 const styles = {
   worldMailbox: {
+    bg: 'gray.50',
+    p: 4,
     flex: 1,
     flexFlow: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   }
 }
 

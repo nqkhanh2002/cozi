@@ -1,17 +1,22 @@
 import {
     Flex,
+    Box,
 } from '@chakra-ui/react'
 import Header from "./header"
 import Footer from "./footer"
-import Sidebar from "./sidebar"
+import Menu from "./menu"
+import BtnCompose from './btnCompose'
 
 export default function Layout({ children }) {
     return (
         <>
             <Header />
             <Flex sx={styles.container}>
-                <Sidebar flex='1' />
                 {children}
+                <Box sx={styles.menu}>
+                    <Menu flex='1'/>
+                </Box>
+                {/* <BtnCompose /> */}
             </Flex>
             <Footer />
         </>
@@ -20,8 +25,15 @@ export default function Layout({ children }) {
 
 const styles = {
     container: {
-        maxW: 'container.lg',
+        position: 'relative',
+        maxW: 'container.xl',
         mx: 'auto',
-        my: 4,
+        py: 8,
+    },
+    menu: {
+        display: {
+            sm: 'none',
+            lg: 'block',
+        },
     }
 }

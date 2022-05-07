@@ -1,4 +1,5 @@
 import {
+    Box,
     Flex,
     Text,
     Heading,
@@ -6,29 +7,47 @@ import {
 
 export default function Envelope({ date, from, tittle, to }) {
     return (
-        <Flex sx={styles.envelope}>
-            <Text>
-                Từ: {from}
-            </Text>
-            <Text>
-                {date}
-            </Text>
-            <Heading as='h3' size='md'>
-                {tittle}
-            </Heading>
-            <Text>
-                Đến: {to}
-            </Text>
-        </Flex>
+        <Box sx={styles.container}>
+            <Flex sx={styles.inner}>
+                <Text>
+                    {date}
+                </Text>
+                <Text>
+                    Từ: {from}
+                </Text>
+                <Heading as='h3' size='md'>
+                    {tittle}
+                </Heading>
+                <Text>
+                    Đến: {to}
+                </Text>
+            </Flex>
+        </Box>
     )
 }
 
 const styles = {
-    envelope: {
-        w: '400px',
-        h: '256px',
+    container: {
+        w: '404px',
+        h: '236px',
+        bg: `repeating-linear-gradient(135deg,
+            #2D4263 0, #2D4263 0.75rem,
+            transparent 0.75rem, transparent 1.25rem,
+             #C84B31 1.25rem, #C84B31 2rem,
+             transparent 2rem, transparent 2.5rem)`,
+        p: 1,
         mb: 8,
-        border: '2px solid black',
+        cursor: 'pointer',
+        _hover: {
+            boxShadow: '0.5rem 0.5rem black',
+            transform: 'translate(-0.5rem, -0.5rem)'
+        }
+    },
+    inner: {
+        w: '100%',
+        h: '100%',
+        bg: 'white',
+
         flexDirection: 'column',
         padding: 8,
         p: {
@@ -36,9 +55,6 @@ const styles = {
         },
         h3: {
             mb: 4,
-        },
-        _hover: {
-            border: '4px solid black',
         },
     }
 }
