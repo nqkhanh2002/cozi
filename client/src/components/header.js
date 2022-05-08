@@ -3,14 +3,14 @@ import {
     Link,
     Button,
 } from '@chakra-ui/react';
-
+import logo from '../images/wda-logo.png';
 import MobileDrawer from './mobileDrawer';
-
+import '../App.css';
 export default function Header() {
     return (
         <Flex as='nav' sx={styles.header}>
             <Link href='./'>
-                COZI
+            <img style={{width:200,height:100}} src={logo} alt={"logo"}/> 
             </Link>
             <Button
                 sx={styles.btnSignIn}
