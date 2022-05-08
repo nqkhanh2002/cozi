@@ -2,6 +2,7 @@ import {
     FormControl,
     FormLabel,
     Select,
+    Input,
     Textarea,
     Box,
     Checkbox,
@@ -13,10 +14,10 @@ import { createLetter } from '../actions/letters';
 
 export default function Compose() {
     const [letterData, setLetterData] = useState({
-        to: '',
+        to: 'Thế giới',
         title: '',
         body: '',
-        from: '', 
+        from: 'Người lạ', 
     });
 
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export default function Compose() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(createLetter(letterData));
+        console.log(letterData);
     }
 
     return (
@@ -39,6 +41,11 @@ export default function Compose() {
                 <option value='option2'>Option 2</option>
                 <option value='option3'>Option 3</option>
             </Select>
+            <FormLabel htmlFor='tittle'>Tiêu đề</FormLabel>
+            <Input
+                value={letterData.title}
+                onChange={(e) => setLetterData({ ...letterData, title: e.target.value })}
+            />
             <FormLabel htmlFor='content'>Nội dung thư</FormLabel>
             <Textarea
                 id='content'
@@ -47,8 +54,8 @@ export default function Compose() {
             />
             <Box sx={styles.checkbox}>
                 <Checkbox
-                    value='private'
-                    isChecked={(e) => setLetterData({ ...letterData, to: (e.target.value === 'private') ? 'Thế giới' : 'Ai đó' })}
+                    value={letterData.to}
+                    onChange={(e) => setLetterData({ ...letterData, to: e.target.value })}
                 >
                     Ẩn danh
                 </Checkbox>
