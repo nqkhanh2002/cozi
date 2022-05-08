@@ -6,7 +6,6 @@ import {
 import Header from "./header"
 import Footer from "./footer"
 import Menu from "./menu"
-import BtnCompose from './btnCompose'
 
 export default function Layout() {
     return (
@@ -17,7 +16,6 @@ export default function Layout() {
                 <Box sx={styles.menu}>
                     <Menu flex='1'/>
                 </Box>
-                <BtnCompose />
             </Flex>
             <Footer />
         </>
@@ -26,7 +24,7 @@ export default function Layout() {
 
 const styles = {
     container: {
-        position: 'relative',
+        minH: 'xl',
         maxW: 'container.xl',
         mx: 'auto',
         py: 8,

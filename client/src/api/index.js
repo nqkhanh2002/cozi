@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/letters';
+const API = axios.create({ baseURL: 'http://localhost:5000' }); 
 
-export const fetchLetters = () => axios.get(url);
-export const createLetter = (newLetter) => axios.post(url, newLetter);
-export const updateLetter = (id, updatedLetter) => axios.patch(`${url}/${id}`, updatedLetter);
-export const deleteLetter = (id) => axios.delete(`${url}/${id}`);
+export const fetchLetters = () => API.get('/letters');
+export const createLetter = (newLetter) => API.post('/letters', newLetter);
+export const updateLetter = (id, updatedLetter) => API.patch(`/letters/${id}`, updatedLetter);
+export const deleteLetter = (id) => API.delete(`/letters/${id}`);
+
+export const signIn = (formData) => API.post('/users/signIn', formData);
+export const signUp = (formData) => API.post('/users/signUp', formData);

@@ -1,5 +1,6 @@
 import {
     Flex,
+    Button,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -24,6 +25,11 @@ export default function Menu() {
             <Link to='#'>
                 Thư nháp
             </Link>
+            <Link to='/edit'>
+                <Button variant='filled' sx={styles.btnCompose}>
+                    Viết thư
+                </Button>
+            </Link>
         </Flex>
     )
 }
@@ -38,6 +44,14 @@ const styles = {
         },
         a: {
             mb: 4,
-        }
+        },
     },
+    // btnCompose: {
+    //     w: '128px',
+    //     bg: 'blue.700',
+    //     color: 'white',
+    //     _hover: {
+    //         bg: 'blue.600',
+    //     }
+    // }
 }

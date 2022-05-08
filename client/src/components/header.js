@@ -1,70 +1,75 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
     Flex,
-    Link,
+    Image,
+    Tooltip,
+    Text,
+    Avatar,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
     Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    FormControl,
-    FormLabel,
-    Input,
-    useDisclosure,
 } from '@chakra-ui/react';
-import logo from '../images/wda-logo.png';
+import CoziLogo from '../assets/CoziLogo.png';
 import MobileDrawer from './mobileDrawer';
-import '../App.css';
-export default function Header() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+import { FaHeart } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-    const initialRef = React.useRef()
+
+export default function Header() {
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const location = useLocation();
+    useEffect(() => {
+        // const token = user?.token;
+        setUser(JSON.parse(localStorage.getItem('profile')));
+    }, [location])
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const logOut = () => {
+        dispatch({
+            type: 'LOGOUT'
+        });
+        navigate('/');
+        setUser(null);
+    }
 
     return (
         <Flex as='nav' sx={styles.header}>
-            <Link href='./'>
-            <img style={{width:200,height:100}} src={logo} alt={"logo"}/> 
+            <Link to='/'>
+                <Image h={16} src={CoziLogo} />
             </Link>
-
-            <Button
-                onClick={onOpen}
-                sx={styles.btnSignIn}
-            >
-                Đăng nhập
-            </Button>
-            <Modal
-                initialFocusRef={initialRef}
-                isOpen={isOpen}
-                onClose={onClose}
-            >
-                <ModalOverlay />
-                <ModalContent>
-                <ModalHeader>Đăng nhập</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody pb={6}>
-                    <FormControl>
-                    <FormLabel>Email</FormLabel>
-                    <Input ref={initialRef} type="email" />
-                    
-                    </FormControl>
-
-                    <FormControl mt={4}>
-                    <FormLabel>Mật khẩu</FormLabel>
-                    <Input type="password" />
-                    </FormControl>
-                </ModalBody>
-
-                <ModalFooter>
-                    <Button colorScheme='blue' mr={3}>
-                        Đăng nhập
-                    </Button>
-                </ModalFooter>
-                </ModalContent>
-            </Modal>
-
+            
+            {user ? (
+                <Flex ml='auto' align='center'>
+                    <Tooltip label='Điểm tin cậy'>
+                        <Flex>
+                            <FaHeart size={26} color='#C84B31' />
+                            <Text ml='2'>500</Text>
+                        </Flex>
+                    </Tooltip>
+                    <Menu>
+                        <MenuButton>
+                            <Avatar ml={8} name='WevDev Adventure' src='' />
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={logOut}>Đăng xuất</MenuItem>
+                        </MenuList>
+                    </Menu>
+                </Flex>
+            ) : (
+                <Flex ml='auto'>
+                    <Link to='auth'>
+                        <Button sx={styles.btnSignIn}>
+                            Đăng nhập
+                        </Button>
+                    </Link>
+                </Flex>
+            )}
+            
             <MobileDrawer />
         </Flex>
     )
@@ -74,11 +79,15 @@ const styles = {
     header: {
         maxW: 'container.xl',
         mx: 'auto',
-        p: 4,
+        p: 2,
         alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: '1',
+        bg: 'white',
     },
     btnSignIn: {
-        ml: 'auto',
+        w: '128px',
         color: 'gray.900',
         bg: 'none',
         border: '2px solid',
@@ -87,5 +96,5 @@ const styles = {
             color: 'white',
             bg: 'blue.700',
         }
-    }
+    },
 }

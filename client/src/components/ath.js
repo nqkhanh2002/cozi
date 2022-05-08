@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import {
+    Box,
+    Link,
+    Text,
+    Button,
+    FormControl,
+    FormLabel,
+    Input,
+} from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { signIn, signUp } from '../actions/auth';
+
+export default function Auth() {
+    const initialRef = React.useRef()
+
+    const [isSignIn, setIsSignIn] = useState(true);
+    const [formData, setFormData ] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    })
+
+    const dispatch = useDispatch();
+    let navigate = useNavigate();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (isSignIn) {
+            dispatch(signIn(formData, navigate));
+        } else {
+            dispatch(signUp(formData, navigate));
+        }
+    };
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    return (
+        <Box sx={styles.form}  as='form' onSubmit={handleSubmit}>
+            <FormControl as='form' isRequired>
+                {!isSignIn ?
+                    <>
+                        <FormLabel htmlFor='name'>Tên người dùng</FormLabel>
+                        <Input name='name' id='name' onChange={handleChange}/>
+                    </>
+                : null}
+
+                <FormLabel htmlFor='email'>Email</FormLabel>
+                <Input name='email' id='email' ref={initialRef} type="email" onChange={handleChange} />
+                <FormLabel htmlFor='password'>Mật khẩu</FormLabel>
+                <Input name='password' type='password' id='name' onChange={handleChange} />
+
+                {!isSignIn ?
+                    <>
+                        <FormLabel htmlFor='confirmPassword'>Nhập lại mật khẩu</FormLabel>
+                        <Input name='confirmPassword' type='password' id='confirmPassword' onChange={handleChange} />
+                    </>
+                : null}
+            </FormControl>
+            <Button variant='filled' w='full' mt={8} colorScheme='blue' type='submit'>
+                {isSignIn ? 'Đăng nhập' : 'Tạo tài khoản'}
+            </Button>
+            {isSignIn ? (
+                <Text mt={4}>Chưa có tạo khoản? <Link color='blue' onClick={() => setIsSignIn(false)}>Tạo tài khoản</Link></Text>
+            ) : (
+                <Text mt={4}>Đã có tạo khoản? <Link color='blue' onClick={() => setIsSignIn(true)}>Đăng nhập</Link></Text>
+            )}
+        </Box>
+    )
+}
+
+const styles = {
+    form: {
+        p: 16,
+        border: '1px solid',
+        borderColor: 'gray.200',
+        mx: 'auto',
+        label: {
+            mt: 2,
+        },
+    },
+}

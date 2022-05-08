@@ -1,4 +1,6 @@
 import {
+    Heading,
+    Divider,
     FormControl,
     FormLabel,
     Select,
@@ -16,13 +18,13 @@ import {
     ModalCloseButton,
     useDisclosure,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createLetter, updateLetter } from '../actions/letters';
 import { FaCheckCircle } from 'react-icons/fa';
 
-export default function EditingForm({ currentId, setCurrentId }) {
+export default function EditingForm() {
     const [letterData, setLetterData] = useState({
         from: 'Tôi', 
         title: '',
@@ -31,7 +33,8 @@ export default function EditingForm({ currentId, setCurrentId }) {
     });
 
     // Lấy dữ liệu thư cần chỉnh sửa
-    const letter = useSelector((state) => currentId ? state.letters.find((sheet) => sheet.id === currentId) : null);
+    const { state } = useLocation();
+    const letter = state;
 
     const dispatch = useDispatch();
 
@@ -43,7 +46,6 @@ export default function EditingForm({ currentId, setCurrentId }) {
     }, [letter]);
 
     const clear = () => {
-        setCurrentId(0);
         setLetterData({
             from: 'Tôi', 
             title: '',
@@ -54,10 +56,10 @@ export default function EditingForm({ currentId, setCurrentId }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (currentId === 0) {
+        if (letter) {
             dispatch(createLetter(letterData));
         } else {
-            dispatch(updateLetter(currentId, letterData));
+            dispatch(updateLetter(letter._id, letterData));
         }
         clear();
         onOpen();
@@ -66,6 +68,8 @@ export default function EditingForm({ currentId, setCurrentId }) {
     return (
         <>
             <Box width='full' as='form' sx={styles.composeForm} onSubmit={handleSubmit}>
+                <Heading as='h3' size='lg'>{letter ? 'Sửa' : 'Gửi'  } thư</Heading>
+                <Divider mt='4' />
                 <FormControl isRequired>
                     <FormLabel htmlFor='to'>Gửi tới</FormLabel>
                     <Select
@@ -101,9 +105,10 @@ export default function EditingForm({ currentId, setCurrentId }) {
                         </Checkbox>
                 </Box>
                 <Button
+                    variant='filled'
                     type='submit'
                 >
-                    Gửi thư
+                    {letter ? 'Sửa' : 'Gửi'  } thư
                 </Button>
             </Box>
 
@@ -113,7 +118,7 @@ export default function EditingForm({ currentId, setCurrentId }) {
                 <ModalCloseButton />
                 <ModalBody>
                     <Flex sx={styles.notification}>
-                        <Text>Thư đã gửi thành công</Text>
+                        <Text>{letter ? 'Sửa' : 'Gửi'  } thư thành công</Text>
                         <FaCheckCircle size={56} color='green'/>
                         <Link to='/home'>
                             <Button>Quay về trang chủ</Button>

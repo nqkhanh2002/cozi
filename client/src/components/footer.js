@@ -33,7 +33,7 @@ const styles = {
     footer: {
         color: 'white',
         bg: 'black',
-        py: 16,
+        p: 16,
     },
     container: {
         maxW: 'container.xl',
