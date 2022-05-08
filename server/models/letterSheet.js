@@ -15,6 +15,6 @@ const letterSchema = mongoose.Schema({
     }
 });
 
-const LetterSheet = mongoose.model('LetterTank', letterSchema);
+const LetterSheet = mongoose.model('LetterSheet', letterSchema);
 
 export default LetterSheet;

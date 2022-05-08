@@ -23,3 +23,25 @@ export const createLetter = (letter) => async (dispatch) => {
         console.log(error.message);
     }
 }
+
+export const updateLetter = (id, Letter) => async (dispatch) => {
+    try {
+      const { data } = await api.updateLetter(id, Letter);
+  
+      dispatch({ type: 'UPDATE', payload: data });
+    } catch (error) {
+      console.log(error.message);
+    }
+};
+  
+
+export const deleteLetter = (id) => async (dispatch) => {
+    try {
+      await api.deleteLetter(id);
+  
+      dispatch({ type: 'DELETE', payload: id });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  

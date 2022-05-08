@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function BtnCompose() {
     return (
-        <Link to='/compose'>
+        <Link to='/edit'>
             <Button sx={styles.btnCompose}>
                 Viết thư
             </Button>

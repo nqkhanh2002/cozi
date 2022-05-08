@@ -3,7 +3,7 @@ import LetterSheet from '../models/letterSheet.js';
 export const getLetters = async (req, res) => { 
     try {
         const letters = await LetterSheet.find();
-        console.log(letters);
+        
         res.status(200).json(letters);
     } catch (error) {
         res.status(404).json({ message: error.message });
