@@ -4,25 +4,28 @@ import {
     Text,
     Heading,
 } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 
-export default function Envelope({ date, from, tittle, to }) {
-    const letters = useSelector((state) => state.letters);
-    console.log(letters);
+
+export default function Envelope({ letter, setCurrentId }) {
+    // const dispatch = useDispatch();
+    const date = new Date(letter.dateCreated);
+    const dateStr = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+
     return (
         <Box sx={styles.container}>
             <Flex sx={styles.inner}>
                 <Text>
-                    {date}
+                    {dateStr}
                 </Text>
                 <Text>
-                    Từ: {from}
+                    Từ: {letter.from}
                 </Text>
                 <Heading as='h3' size='md'>
-                    {tittle}
+                    {letter.title}
                 </Heading>
                 <Text>
-                    Đến: {to}
+                    Đến: {letter.to}
                 </Text>
             </Flex>
         </Box>
