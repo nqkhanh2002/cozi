@@ -17,15 +17,10 @@ import MobileDrawer from './mobileDrawer';
 import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import decode from 'jwt-decode';
 
 export default function Header() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-    const location = useLocation();
-    useEffect(() => {
-        // const token = user?.token;
-        setUser(JSON.parse(localStorage.getItem('profile')));
-    }, [location])
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -36,6 +31,18 @@ export default function Header() {
         navigate('/');
         setUser(null);
     }
+
+    const location = useLocation();
+    useEffect(() => {
+        const token = user?.token;
+        if (token) {
+            const decodedToken = decode(token);
+            
+            if (decodedToken.exp * 1000 < new Date().getTime())
+                logOut();
+        }
+        setUser(JSON.parse(localStorage.getItem('profile')));
+    }, [location]);
 
     return (
         <Flex as='nav' sx={styles.header}>
@@ -48,12 +55,12 @@ export default function Header() {
                     <Tooltip label='Điểm tin cậy'>
                         <Flex>
                             <FaHeart size={26} color='#C84B31' />
-                            <Text ml='2'>500</Text>
+                            <Text ml='2'>{user.result.coziPoints}</Text>
                         </Flex>
                     </Tooltip>
                     <Menu>
                         <MenuButton>
-                            <Avatar ml={8} name='WevDev Adventure' src='' />
+                            <Avatar ml={8} name={user.result.name} src='' />
                         </MenuButton>
                         <MenuList>
                             <MenuItem onClick={logOut}>Đăng xuất</MenuItem>
@@ -70,7 +77,7 @@ export default function Header() {
                 </Flex>
             )}
             
-            <MobileDrawer />
+            {user && <MobileDrawer />}
         </Flex>
     )
 }

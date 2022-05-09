@@ -46,12 +46,4 @@ const styles = {
             mb: 4,
         },
     },
-    // btnCompose: {
-    //     w: '128px',
-    //     bg: 'blue.700',
-    //     color: 'white',
-    //     _hover: {
-    //         bg: 'blue.600',
-    //     }
-    // }
 }

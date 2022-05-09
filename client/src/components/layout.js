@@ -1,21 +1,26 @@
-import { Outlet } from 'react-router-dom'
+import Header from './header';
 import {
     Flex,
     Box,
-} from '@chakra-ui/react'
-import Header from "./header"
-import Footer from "./footer"
-import Menu from "./menu"
+} from '@chakra-ui/react';
+import { Outlet, useLocation } from 'react-router-dom';
+import Menu from './menu';
+import Footer from './footer';
 
 export default function Layout() {
+    const user = localStorage.getItem('profile');
+    const { state } = useLocation();
+
     return (
         <>
             <Header />
             <Flex sx={styles.container}>
                 <Outlet />
-                <Box sx={styles.menu}>
-                    <Menu flex='1'/>
-                </Box>
+                {(state?.auth || user) && (
+                    <Box sx={styles.menu}>
+                        <Menu flex='1'/>
+                    </Box>
+                )}
             </Flex>
             <Footer />
         </>

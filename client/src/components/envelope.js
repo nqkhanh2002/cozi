@@ -8,12 +8,14 @@ import {
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { deleteLetter } from '../api';
+import { deleteLetter } from '../actions/letters';
+import moment from 'moment';
+import 'moment/locale/vi';
 
 
-export default function Envelope({ letter, setCurrentId }) {
-    const date = new Date(letter.dateCreated);
-    const dateStr = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+export default function Envelope({ letter }) {
+    const user = JSON.parse(localStorage.getItem('profile'));
+    moment.locale('vi');
 
     const navigate = useNavigate();
     const handleEdit = () => {
@@ -24,15 +26,23 @@ export default function Envelope({ letter, setCurrentId }) {
     const handleDelete = () => {
         dispatch(deleteLetter(letter._id));
     }
+
+    const handleRead = () => {
+        if (user) {
+            navigate('/read', { state: letter });
+        } else {
+            navigate('/auth');
+        }
+    }
     return (
         <Box sx={styles.container}>
-            <Flex sx={styles.inner}>
-                <Flex sx={styles.advanced}>
-                    <IconButton aria-label='Edit' icon={<FaPencilAlt />} onClick={handleEdit} />
-                    <IconButton aria-label='Delete' icon={<FaTrashAlt />} onClick={handleDelete} />
-                </Flex>
+            {user && (user?.result?._id === letter.creator) && (<Flex sx={styles.advanced}>
+                <IconButton aria-label='Edit' icon={<FaPencilAlt />} onClick={handleEdit} />
+                <IconButton aria-label='Delete' icon={<FaTrashAlt />} onClick={handleDelete} />
+            </Flex>)}
+            <Flex sx={styles.inner} onClick={handleRead}>
                 <Text>
-                    {dateStr}
+                    {moment(letter.dateCreated).calendar()}
                 </Text>
                 <Text>
                     Từ: {letter.from}
@@ -50,6 +60,7 @@ export default function Envelope({ letter, setCurrentId }) {
 
 const styles = {
     container: {
+        position: 'relative',
         w: '404px',
         h: '236px',
         bg: `repeating-linear-gradient(135deg,
@@ -79,7 +90,6 @@ const styles = {
         }
     },
     inner: {
-        position: 'relative',
         w: '100%',
         h: '100%',
         bg: 'white',

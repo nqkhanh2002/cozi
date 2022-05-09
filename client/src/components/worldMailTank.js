@@ -1,11 +1,11 @@
 import Envelope from './envelope';
 import {
     Flex,
-    CircularProgress
+    CircularProgress,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-export default function WorldMailbox({ setCurrentId }) {
+export default function WorldMailbox() {
     const letters = useSelector((state) => state.letters);
 
     return (
@@ -14,7 +14,7 @@ export default function WorldMailbox({ setCurrentId }) {
                 <CircularProgress mt='8' isIndeterminate />
             : (
                 letters.map((letter) => (
-                    <Envelope letter={letter} setCurrentId={setCurrentId} />
+                    <Envelope key={letter._id} letter={letter} />
                 ))
             )}
         </Flex>

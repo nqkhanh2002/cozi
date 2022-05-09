@@ -1,4 +1,4 @@
-export default (letters = [], action) => {
+const letterReducer = (letters = [], action) => {
     switch (action.type) {
         case 'FETCH_ALL':
             return action.payload;
@@ -12,3 +12,5 @@ export default (letters = [], action) => {
             return letters;
     }
 }
+
+export default letterReducer;

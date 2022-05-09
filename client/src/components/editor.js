@@ -24,39 +24,38 @@ import { useDispatch } from 'react-redux';
 import { createLetter, updateLetter } from '../actions/letters';
 import { FaCheckCircle } from 'react-icons/fa';
 
-export default function EditingForm() {
+export default function Editor() {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const user = JSON.parse(localStorage.getItem('profile'));
     const [letterData, setLetterData] = useState({
-        from: 'Tôi', 
+        from: user.result.name, 
         title: '',
         body: '',
         to: 'Thế giới',
     });
 
-    // Lấy dữ liệu thư cần chỉnh sửa
     const { state } = useLocation();
     const letter = state;
 
-    const dispatch = useDispatch();
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    // Đưa dữ liệu thư cần chỉnh sửa vào form
     useEffect(() => {
         if (letter) setLetterData(letter);
     }, [letter]);
 
     const clear = () => {
         setLetterData({
-            from: 'Tôi', 
+            from: user.result.name, 
             title: '',
             body: '',
             to: 'Thế giới',
         });
     };
-
+    
+    const dispatch = useDispatch();
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (letter) {
+        
+        if (!letter) {
             dispatch(createLetter(letterData));
         } else {
             dispatch(updateLetter(letter._id, letterData));
@@ -80,7 +79,6 @@ export default function EditingForm() {
                     >
                         <option value='Thế giới'>Thế giới</option>
                         <option value='Ai đó đáng tin cậy'>Ai đó đáng tin cậy</option>
-                        <option value='Người quen'>Người quen</option>
                     </Select>
 
                     <FormLabel htmlFor='tittle'>Tiêu đề</FormLabel>
@@ -99,7 +97,7 @@ export default function EditingForm() {
                 <Box mb={4}>
                         <Checkbox
                             value='Người lạ'
-                            onChange={(e) => setLetterData({ ...letterData, from: e.target.value })}
+                            onChange={(e) => setLetterData({ ...letterData, from: e.target.checked ? e.target.value : user.result.name })}
                         >
                             Ẩn danh
                         </Checkbox>

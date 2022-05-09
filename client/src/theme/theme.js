@@ -1,9 +1,13 @@
 import { extendTheme } from '@chakra-ui/react';
+import "@fontsource/lora";
 
 export default extendTheme({
     colors: {
         airmailBlue: '#2D4263',
         airmailRed: '#C84B31',
+    },
+    fonts: {
+        heading: 'Lora',
     },
     components: {
         Button: {

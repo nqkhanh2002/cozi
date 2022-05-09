@@ -13,8 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { signIn, signUp } from '../actions/auth';
 
 export default function Auth() {
-    const initialRef = React.useRef()
-
     const [isSignIn, setIsSignIn] = useState(true);
     const [formData, setFormData ] = useState({
         name: '',
@@ -39,26 +37,26 @@ export default function Auth() {
     };
 
     return (
-        <Box sx={styles.form}  as='form' onSubmit={handleSubmit}>
-            <FormControl as='form' isRequired>
-                {!isSignIn ?
+        <Box sx={styles.form} as='form' onSubmit={handleSubmit}>
+            <FormControl isRequired>
+                {!isSignIn && (
                     <>
                         <FormLabel htmlFor='name'>Tên người dùng</FormLabel>
                         <Input name='name' id='name' onChange={handleChange}/>
                     </>
-                : null}
+                )}
 
                 <FormLabel htmlFor='email'>Email</FormLabel>
-                <Input name='email' id='email' ref={initialRef} type="email" onChange={handleChange} />
+                <Input name='email' id='email' type="email" onChange={handleChange} />
                 <FormLabel htmlFor='password'>Mật khẩu</FormLabel>
                 <Input name='password' type='password' id='name' onChange={handleChange} />
 
-                {!isSignIn ?
+                {!isSignIn && (
                     <>
                         <FormLabel htmlFor='confirmPassword'>Nhập lại mật khẩu</FormLabel>
                         <Input name='confirmPassword' type='password' id='confirmPassword' onChange={handleChange} />
                     </>
-                : null}
+                )}
             </FormControl>
             <Button variant='filled' w='full' mt={8} colorScheme='blue' type='submit'>
                 {isSignIn ? 'Đăng nhập' : 'Tạo tài khoản'}
@@ -74,6 +72,7 @@ export default function Auth() {
 
 const styles = {
     form: {
+        w: 'sm',
         p: 16,
         border: '1px solid',
         borderColor: 'gray.200',

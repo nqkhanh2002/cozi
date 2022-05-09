@@ -8,9 +8,7 @@ import {
     DrawerCloseButton,
     useDisclosure,
 } from '@chakra-ui/react';
-
 import { FaBars } from 'react-icons/fa';
-
 import Menu from './menu'
 
 export default function MobileDrawer() {

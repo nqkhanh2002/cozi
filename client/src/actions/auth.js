@@ -7,7 +7,7 @@ export const signIn = (formData, navigate) => async (dispatch) => {
             type: 'AUTH',
             data,
         });
-        navigate('/');
+        navigate('/', {state: { auth: true }});
     } catch (error) {
         console.log(error.message);
     }
@@ -20,7 +20,7 @@ export const signUp = (formData, navigate) => async (dispatch) => {
             type: 'AUTH',
             data,
         });
-        navigate('/');
+        navigate('/', {state: { auth: true }});
     } catch (error) {
         console.log(error.message);
     }

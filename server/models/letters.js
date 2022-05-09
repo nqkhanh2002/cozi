@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const letterSchema = mongoose.Schema({
+    creator: String,
     from: String,
     dateCreated: {
         type: Date,
@@ -9,12 +10,6 @@ const letterSchema = mongoose.Schema({
     title: String,
     body: String,
     to: String,
-    dedicated: {
-        type: Boolean,
-        default: false,
-    }
 });
 
-const LetterSheet = mongoose.model('LetterSheet', letterSchema);
-
-export default LetterSheet;
+export default mongoose.model('Letters', letterSchema);

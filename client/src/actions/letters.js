@@ -37,11 +37,11 @@ export const updateLetter = (id, Letter) => async (dispatch) => {
 
 export const deleteLetter = (id) => async (dispatch) => {
     try {
-      await api.deleteLetter(id);
-  
-      dispatch({ type: 'DELETE', payload: id });
+        await api.deleteLetter(id);
+
+        dispatch({ type: 'DELETE', payload: id });
     } catch (error) {
-      console.log(error.message);
+        console.log(error.message);
     }
-  };
+};
   
