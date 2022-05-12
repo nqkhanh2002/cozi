@@ -15,6 +15,8 @@ import Editor from './components/editor';
 import Auth from './components/auth';
 import Reader from './components/reader';
 import About from './components/about';
+import Forgot from './components/forgot.password';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +38,7 @@ function App() {
             <Route path='read' element={<Reader />} />
             <Route path='about' element={<About />} />
             <Route path='*' element={<WorldMailbox />} />
+            <Route path='forgot' element={<Forgot/>} />
           </Route>
         </Routes>
       </BrowserRouter>
