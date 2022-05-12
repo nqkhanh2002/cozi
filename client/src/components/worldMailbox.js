@@ -1,18 +1,23 @@
 import Envelope from './envelope';
 import {
-    Flex,
     CircularProgress,
+    Flex,
+    Text,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 export default function WorldMailbox() {
-    const letters = useSelector((state) => state.letters);
+    let letters = useSelector((state) => state.letters);
+    letters = letters.filter(letter => letter.to !== 'Ai đó đáng tin cậy');
 
     return (
-        <Flex sx={styles.worldMailTank}>
-            {!letters.length ?
-                <CircularProgress mt='8' isIndeterminate />
-            : (
+        <Flex sx={styles.mailbox}>
+            {!letters.length ? (
+                <Flex direction='column' align='center'>
+                    <Text mb='4'>Đang tải dữ liệu</Text>
+                    <CircularProgress isIndeterminate />
+                </Flex>
+            ) : (
                 letters.map((letter) => (
                     <Envelope key={letter._id} letter={letter} />
                 ))
@@ -22,7 +27,7 @@ export default function WorldMailbox() {
 }
 
 const styles = {
-    worldMailTank: {
+    mailbox: {
         minH: 'xl',
         bg: 'gray.50',
         py: 8,

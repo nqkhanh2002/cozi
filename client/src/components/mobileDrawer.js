@@ -49,7 +49,7 @@ const styles = {
     btnMenu: {
         bg: 'none',
         display: {
-            sm: 'block',
+            base: 'block',
             lg: 'none',
         },
         ml: 2,

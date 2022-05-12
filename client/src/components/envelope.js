@@ -4,8 +4,16 @@ import {
     IconButton,
     Text,
     Heading,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+    Button,
+    ModalFooter,
 } from '@chakra-ui/react';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'
+import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteLetter } from '../actions/letters';
@@ -14,12 +22,14 @@ import 'moment/locale/vi';
 
 
 export default function Envelope({ letter }) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const user = JSON.parse(localStorage.getItem('profile'));
     moment.locale('vi');
 
     const navigate = useNavigate();
     const handleEdit = () => {
-        navigate('/edit', { state: letter });
+        navigate('/edit', { state: {receiverId: '', receiverName: '', letter } });
     }
 
     const dispatch = useDispatch();
@@ -36,13 +46,18 @@ export default function Envelope({ letter }) {
     }
     return (
         <Box sx={styles.container}>
-            {user && (user?.result?._id === letter.creator) && (<Flex sx={styles.advanced}>
+            {user && (user?.result?._id === letter.sender) && (<Flex sx={styles.advanced}>
                 <IconButton aria-label='Edit' icon={<FaPencilAlt />} onClick={handleEdit} />
-                <IconButton aria-label='Delete' icon={<FaTrashAlt />} onClick={handleDelete} />
+                <IconButton aria-label='Delete' icon={<FaTrashAlt />} onClick={onOpen} />
             </Flex>)}
             <Flex sx={styles.inner} onClick={handleRead}>
                 <Text>
-                    {moment(letter.dateCreated).calendar()}
+                    {moment(letter.dateCreated).calendar({
+                        sameDay: '[Hôm nay lúc] H:m',
+                        lastDay: '[Hôm qua lúc] H:m',
+                        lastWeek: 'dd, DD/MM/YYYY [lúc] H:m',
+                        sameElse: 'dd, DD/MM/YYYY'
+                    })}
                 </Text>
                 <Text>
                     Từ: {letter.from}
@@ -54,6 +69,20 @@ export default function Envelope({ letter }) {
                     Đến: {letter.to}
                 </Text>
             </Flex>
+
+            <Modal onClose={onClose} isOpen={isOpen}>
+                <ModalOverlay />
+                <ModalContent>
+                <ModalCloseButton />
+                <ModalBody>
+                    <Text mt='8'>Bạn có chắc muốn xóa thư này?</Text>
+                </ModalBody>
+                <ModalFooter>
+                    <Button colorScheme='red' onClick={handleDelete}>Xóa</Button>
+                    <Button ml='2' onClick={onClose}>Hủy</Button>
+                </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     )
 }
@@ -61,7 +90,10 @@ export default function Envelope({ letter }) {
 const styles = {
     container: {
         position: 'relative',
-        w: '404px',
+        w: {
+            base: '320px',
+            sm: '404px'
+        },
         h: '236px',
         bg: `repeating-linear-gradient(135deg,
             #2D4263 0, #2D4263 0.75rem,
@@ -102,5 +134,5 @@ const styles = {
         h3: {
             mb: 4,
         },
-    }
+    },
 }

@@ -4,11 +4,18 @@ import {
     Heading,
     Text,
 } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Reader() {
     const { state } = useLocation();
     const letter = state;
+
+    const user = JSON.parse(localStorage.getItem('profile'));
+
+    const navigate = useNavigate();
+    const handleReply = () => {
+        navigate('/edit', {state: { receiverId: letter.sender, receiverName: letter.from, letter: null }});
+    }
 
     return (
         <Flex sx={styles.container}>
@@ -16,7 +23,9 @@ export default function Reader() {
                 <Heading as='h1' size='lg' mb='8'>{letter.title}</Heading>
                 <Text whiteSpace='pre-line'>{letter.body}</Text>
             </Flex>
-            <Button mt='8' variant='filled'>Phản hồi</Button>
+            {user && (user.result._id !== letter.sender) && (
+                <Button mt='8' variant='filled' onClick={handleReply}>Phản hồi</Button>
+            )}
         </Flex>
     )
 }

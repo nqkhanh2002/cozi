@@ -1,20 +1,20 @@
 import {
     Box,
     Flex,
-    Text,
     Link,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
 
 export default function Footer() {
     return (
         <Box as='footer' sx={styles.footer}>
             <Flex sx={styles.container}>
-                <Text>
+                <a href='https://adventure2022.webdevstudios.org/'>
                     @Webdev Adventure 2022
-                </Text>
-                <Link href='#'>
+                </a>
+                <NavLink to='about'>
                     Về chúng tôi
-                </Link>
+                </NavLink>
                 <Link href='#'>
                     Chính sách sử dụng
                 </Link>
@@ -42,7 +42,7 @@ const styles = {
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: {
-            sm: 'column',
+            base: 'column',
             lg: 'row',
         },
         p: {

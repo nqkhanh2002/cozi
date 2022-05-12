@@ -9,6 +9,10 @@ export const signIn = (formData, navigate) => async (dispatch) => {
         });
         navigate('/', {state: { auth: true }});
     } catch (error) {
+        dispatch({
+            type: 'ERR',
+            data: error.response.data.message,
+        });
         console.log(error.message);
     }
 }
@@ -22,6 +26,10 @@ export const signUp = (formData, navigate) => async (dispatch) => {
         });
         navigate('/', {state: { auth: true }});
     } catch (error) {
+        dispatch({
+            type: 'ERR',
+            data: error.response.data.message,
+        });
         console.log(error.message);
     }
 }

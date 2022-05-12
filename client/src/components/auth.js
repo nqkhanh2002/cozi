@@ -7,8 +7,9 @@ import {
     FormControl,
     FormLabel,
     Input,
+    useToast,
 } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signIn, signUp } from '../actions/auth';
 
@@ -23,6 +24,8 @@ export default function Auth() {
 
     const dispatch = useDispatch();
     let navigate = useNavigate();
+    const toast = useToast();
+    const errMsg = useSelector(state => state.auth.authData);
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isSignIn) {
@@ -30,6 +33,13 @@ export default function Auth() {
         } else {
             dispatch(signUp(formData, navigate));
         }
+        toast({
+            title: `Đăng${isSignIn ? ' nhập ' : ' ký '}thành công`,
+            description: "Bạn sẽ được chuyển về trang chủ.",
+            status: 'success',
+            duration: 4000,
+            isClosable: true,
+        })
     };
 
     const handleChange = (e) => {
@@ -49,7 +59,7 @@ export default function Auth() {
                 <FormLabel htmlFor='email'>Email</FormLabel>
                 <Input name='email' id='email' type="email" onChange={handleChange} />
                 <FormLabel htmlFor='password'>Mật khẩu</FormLabel>
-                <Input name='password' type='password' id='name' onChange={handleChange} />
+                <Input name='password' id='password' type='password' onChange={handleChange} />
 
                 {!isSignIn && (
                     <>
@@ -72,7 +82,7 @@ export default function Auth() {
 
 const styles = {
     form: {
-        w: 'sm',
+        minW: 'sm',
         p: 16,
         border: '1px solid',
         borderColor: 'gray.200',

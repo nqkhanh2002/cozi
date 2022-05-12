@@ -36,7 +36,7 @@ const styles = {
     },
     menu: {
         display: {
-            sm: 'none',
+            base: 'none',
             lg: 'block',
         },
     }

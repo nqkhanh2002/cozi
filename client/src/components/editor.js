@@ -27,16 +27,18 @@ import { FaCheckCircle } from 'react-icons/fa';
 export default function Editor() {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    
+    const { state } = useLocation();
+    const { receiverId, receiverName, letter } = state ? state : {};
+
     const user = JSON.parse(localStorage.getItem('profile'));
     const [letterData, setLetterData] = useState({
         from: user.result.name, 
         title: '',
         body: '',
-        to: 'Thế giới',
+        to: receiverName ? receiverName : 'Thế giới',
+        receiver: receiverId,
     });
-
-    const { state } = useLocation();
-    const letter = state;
 
     useEffect(() => {
         if (letter) setLetterData(letter);
@@ -48,6 +50,7 @@ export default function Editor() {
             title: '',
             body: '',
             to: 'Thế giới',
+            receiver: '',
         });
     };
     
@@ -74,15 +77,19 @@ export default function Editor() {
                     <Select
                         id='to'
                         sx={styles.select}
-                        defaultValue={letterData.to}
+                        defaultValue={receiverId ? receiverId : letterData.to}
                         onChange={(e) => setLetterData({ ...letterData, to: e.target.value })}
                     >
+                        {receiverId && (
+                            <option value={receiverId}>{receiverName}</option>
+                        )}
                         <option value='Thế giới'>Thế giới</option>
                         <option value='Ai đó đáng tin cậy'>Ai đó đáng tin cậy</option>
                     </Select>
 
                     <FormLabel htmlFor='tittle'>Tiêu đề</FormLabel>
                     <Input
+                        id='tittle'
                         value={letterData.title}
                         onChange={(e) => setLetterData({ ...letterData, title: e.target.value })}
                     />
